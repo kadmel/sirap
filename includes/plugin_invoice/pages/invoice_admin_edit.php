@@ -245,37 +245,71 @@ $default_payment_method = module_config::c('invoice_default_payment_method','pay
 
 						<tbody>
 
-							<tr>
+							
+                              <!-- INICIO PROVEEDOR SELECT -->
+                            <tr>
 
-								<th class="width1">
+                                <th>
 
-									<?php echo _l('Invoice #'); ?>
+                                    <?php echo _l('Customer'); ?>
 
-								</th>
+                                </th>
 
-								<td>
+                                <td>
+
+                                    <?php
+
+                                    if(!$invoice['customer_id'] || isset($_REQUEST['change_customer'])){
+
+                                        // allow them to pick customer.
+
+                                        $c = array();
+
+                                        $customers = module_customer::get_customers();
+
+                                        foreach($customers as $customer){
+
+                                            $c[$customer['customer_id']] = $customer['customer_name'];
+
+                                        }
+
+                                        echo print_select_box($c,'customer_id',$invoice['customer_id']);
+
+                                        if($invoice['customer_id'] && module_customer::can_i('view','Customers')){ ?>
+
+                                            <a href="<?php echo module_customer::link_open($invoice['customer_id'],false);?>"><?php _e('Open');?></a>
+
+                                            <?php
+
+                                        }
+
+                                    }else{
+
+                                        echo module_customer::link_open($invoice['customer_id'],true);
+
+                                    }
+
+                                     ?>
+
+                                </td>
+
+                            </tr>
+                        <!-- FIN PROVEEDOR -->
+                            <tr>
+
+                                <th class="width1">
+
+                                    <?php echo _l('Invoice #'); ?>
+
+                                </th>
+
+                                <td>
 
                                     <input type="text" name="name" id="name" value="<?php echo htmlspecialchars($invoice['name']); ?>" />
 
-								</td>
+                                </td>
 
-							</tr>
-
-							<tr>
-
-								<th>
-
-									<?php echo _l('Status'); ?>
-
-								</th>
-
-								<td>
-
-									<?php echo print_select_box(module_invoice::get_statuses(),'status',$invoice['status'],'',true,false,true); ?>
-
-								</td>
-
-							</tr>
+                            </tr>
 
 							<tr>
 
@@ -484,6 +518,21 @@ $default_payment_method = module_config::c('invoice_default_payment_method','pay
                                 </td>
 
                             </tr>
+                            <tr>
+
+                                <th>
+
+                                    <?php echo _l('Status'); ?>
+
+                                </th>
+
+                                <td>
+
+                                    <?php echo print_select_box(module_invoice::get_statuses(),'status',$invoice['status'],'',true,false,true); ?>
+
+                                </td>
+
+                            </tr>
 
 
 
@@ -517,57 +566,8 @@ $default_payment_method = module_config::c('invoice_default_payment_method','pay
 
 							</tr>
 
+
                             <?php } ?>
-
-                        <!-- INICIO PROVEEDOR SELECT -->
-                            <tr>
-
-                                <th>
-
-                                    <?php echo _l('Customer'); ?>
-
-                                </th>
-
-                                <td>
-
-                                    <?php
-
-                                    if(!$invoice['customer_id'] || isset($_REQUEST['change_customer'])){
-
-                                        // allow them to pick customer.
-
-                                        $c = array();
-
-                                        $customers = module_customer::get_customers();
-
-                                        foreach($customers as $customer){
-
-                                            $c[$customer['customer_id']] = $customer['customer_name'];
-
-                                        }
-
-                                        echo print_select_box($c,'customer_id',$invoice['customer_id']);
-
-                                        if($invoice['customer_id'] && module_customer::can_i('view','Customers')){ ?>
-
-                                            <a href="<?php echo module_customer::link_open($invoice['customer_id'],false);?>"><?php _e('Open');?></a>
-
-                                            <?php
-
-                                        }
-
-                                    }else{
-
-                                        echo module_customer::link_open($invoice['customer_id'],true);
-
-                                    }
-
-                                     ?>
-
-                                </td>
-
-                            </tr>
-                        <!-- FIN PROVEEDOR -->
 
                             <?php if($invoice['customer_id']){ ?>
 
@@ -622,6 +622,7 @@ $default_payment_method = module_config::c('invoice_default_payment_method','pay
                                 </td>
 
                             </tr>
+
 
                             <?php } ?>
 
@@ -741,7 +742,7 @@ $default_payment_method = module_config::c('invoice_default_payment_method','pay
                     }
 
                     ?>
-            FIN DE MODULO AVANZADO -->
+           
                      
 
                     <?php if ((int)$invoice_id > 0 && (!$invoice['date_sent'] || $invoice['date_sent'] == '0000-00-00') && module_security::is_page_editable()){ ?>
@@ -1258,7 +1259,7 @@ $default_payment_method = module_config::c('invoice_default_payment_method','pay
 
                             </tr>
 
-                            <?php } ?>
+                            <?php } ?> FIN DE MODULO AVANZADO -->
 
                             <?php // check if there are multiple invoice templates available
 
@@ -1460,7 +1461,7 @@ $default_payment_method = module_config::c('invoice_default_payment_method','pay
 
 
 
-
+                    
 
                     <?php if (isset($invoice['deposit_job_id']) && $invoice['deposit_job_id'] > 0){ ?>
 
@@ -1544,8 +1545,8 @@ $default_payment_method = module_config::c('invoice_default_payment_method','pay
 
                     ?>
 
-
-
+            
+                
                 <?php
 
                 if((int)$invoice_id>0 && !$invoice_locked && $customer_data && $customer_data['credit']>0 && (!$invoice['date_cancel']||$invoice['date_cancel']=='0000-00-00')){
