@@ -1,13 +1,5 @@
 <?php 
-/** 
-  * Copyright: dtbaker 2012
-  * Licence: Please check CodeCanyon.net for licence details. 
-  * More licence clarification available here:  http://codecanyon.net/wiki/support/legal-terms/licensing-terms/ 
-  * Deploy: 3996 ba34d46a0b89ceb71be115b45049f6aa
-  * Envato: a9b1869f-0152-4357-bc92-67c9816a454a
-  * Package Date: 2013-09-30 12:12:07 
-  * IP Address: 
-  */
+
 if(!$invoice_safe)die('failed');
 
 $invoice_id = (int)$_REQUEST['invoice_id'];
