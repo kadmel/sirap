@@ -1,7 +1,8 @@
 <?php 
 /** 
-
-  */
+    Cambio
+  
+  **/
 
 if(!$invoice_safe)die('failed');
 
@@ -288,28 +289,13 @@ $default_payment_method = module_config::c('invoice_default_payment_method','pay
                                         echo module_customer::link_open($invoice['customer_id'],true);
 
                                     }
-
-                                     ?>
+                                    ?>
 
                                 </td>
 
                             </tr>
                         <!-- FIN PROVEEDOR -->
-                            <tr>
 
-                                <th class="width1">
-
-                                    <?php echo _l('Invoice #'); ?>
-
-                                </th>
-
-                                <td>
-
-                                    <input type="text" name="name" id="name" value="<?php echo htmlspecialchars($invoice['name']); ?>" />
-
-                                </td>
-
-                            </tr>
 
 							<tr>
 
